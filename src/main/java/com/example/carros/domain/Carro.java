@@ -1,16 +1,15 @@
 package com.example.carros.domain;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
+@Data
 @Entity
 public class Carro {
 
@@ -18,24 +17,12 @@ public class Carro {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "VARCHAR(255) DEFAULT NULL")
     private String nome;
-
-//    @Column(columnDefinition = "VARCHAR(255) DEFAULT NULL")
-//    private String descricao;
-//
-//    @Column(name = "url_foto", columnDefinition = "VARCHAR(255) DEFAULT NULL")
-//    private String urlFoto;
-//
-//    @Column(name = "url_video", columnDefinition = "VARCHAR(255) DEFAULT NULL")
-//    private String urlVideo;
-//
-//    @Column(columnDefinition = "VARCHAR(255) DEFAULT NULL")
-//    private String latitude;
-//
-//    @Column(columnDefinition = "VARCHAR(255) DEFAULT NULL")
-//    private String longitude;
-
-    @Column(columnDefinition = "VARCHAR(255) DEFAULT NULL")
     private String tipo;
+    private String descricao;
+    private String urlFoto;
+    private String urlVideo;
+    private String latitude;
+    private String longitude;
+
 }

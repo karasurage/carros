@@ -1,22 +1,21 @@
 package com.example.carros.service;
 
 import com.example.carros.domain.Carro;
+import com.example.carros.domain.dto.CarroDTO;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CarroService {
-    Iterable<Carro> getCarros();
+    List<CarroDTO> getCarros();
 
-    Optional<Carro> getCarroById(Long id);
+    Optional<CarroDTO> getCarroById(Long id);
 
-    Iterable<Carro> getCarrosByTipo(String tipo);
+    List<CarroDTO> getCarrosByTipo(String tipo);
 
-    List<Carro> getCarrosFake();
+    CarroDTO insert(Carro carro);
 
-    Carro insert(Carro carro);
+    CarroDTO update(Carro carro, Long id);
 
-    Carro update(Carro carro, Long id);
-
-    void delete(Long id);
+    boolean delete(Long id);
 }

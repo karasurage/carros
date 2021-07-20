@@ -10,7 +10,7 @@
 <hr/>
 
 <h3>Link do Curso</h3>
-<img href="https://www.udemy.com/share/101zkG2@Pm5gVFleT1AMc0ZEOGJOfg==/" alt="Udemy" src="https://img.shields.io/badge/Udemy-%23EA5252.svg?style=for-the-badge&logo=Udemy&logoColor=white"/>
+<a href="https://www.udemy.com/share/101zkG2@Pm5gVFleT1AMc0ZEOGJOfg==/"><img alt="Udemy" src="https://img.shields.io/badge/Udemy-%23EA5252.svg?style=for-the-badge&logo=Udemy&logoColor=white"/></a>
 
 <h3>Link do Repoisitório Github</h3>
 
