@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface CarroService {
     List<CarroDTO> getCarros();
 
-    Optional<CarroDTO> getCarroById(Long id);
+    CarroDTO getCarroById(Long id);
 
     List<CarroDTO> getCarrosByTipo(String tipo);
 
@@ -17,5 +17,5 @@ public interface CarroService {
 
     CarroDTO update(Carro carro, Long id);
 
-    boolean delete(Long id);
+    void delete(Long id);
 }

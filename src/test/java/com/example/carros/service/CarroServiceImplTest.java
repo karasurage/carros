@@ -2,7 +2,6 @@ package com.example.carros.service;
 
 import com.example.carros.domain.Carro;
 import com.example.carros.domain.dto.CarroDTO;
-import com.example.carros.service.CarroService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
-import java.util.Optional;
 
 import static junit.framework.TestCase.*;
 
@@ -35,10 +33,9 @@ public class CarroServiceImplTest {
         assertNotNull(id);
 
         // Buscar o objeto
-        Optional<CarroDTO> op = service.getCarroById(id);
-        assertTrue(op.isPresent());
+        c = service.getCarroById(id);
+        assertNotNull(id);
 
-        c = op.get();
         assertEquals("Porshe", c.getNome());
         assertEquals("esportivos", c.getTipo());
 
@@ -46,7 +43,12 @@ public class CarroServiceImplTest {
         service.delete(id);
 
         // Verificar se deletou
-        assertFalse(service.getCarroById(id).isPresent());
+        try {
+            assertNull(service.getCarroById(id));
+            fail("O carro não foi excluído");
+        } catch (Exception e) {
+            // OK
+        }
     }
 
     @Test
@@ -70,11 +72,9 @@ public class CarroServiceImplTest {
     @Test
     public void testGet() {
 
-        Optional<CarroDTO> op = service.getCarroById(11L);
+        CarroDTO c = service.getCarroById(11L);
 
-        assertTrue(op.isPresent());
-
-        CarroDTO c = op.get();
+        assertNotNull(c);
 
         assertEquals("Ferrari FF", c.getNome());
     }

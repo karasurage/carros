@@ -1,5 +1,6 @@
 package com.example.carros.service;
 
+import com.example.carros.config.exception.ObjectNotFoundException;
 import com.example.carros.domain.Carro;
 import com.example.carros.domain.dto.CarroDTO;
 import com.example.carros.repository.CarroRepository;
@@ -24,8 +25,9 @@ public class CarroServiceImpl implements CarroService {
         return list;
     }
 
-    public Optional<CarroDTO> getCarroById(Long id) {
-        return carroRepository.findById(id).map(CarroDTO::create);
+    public CarroDTO getCarroById(Long id) {
+        Optional<Carro> carro = carroRepository.findById(id);
+        return carro.map(CarroDTO::create).orElseThrow(() -> new ObjectNotFoundException("Carro não encontrado"));
     }
 
     public List<CarroDTO> getCarrosByTipo(String tipo) {
@@ -62,11 +64,7 @@ public class CarroServiceImpl implements CarroService {
         }
     }
 
-    public boolean delete(Long id) {
-        if (getCarroById(id).isPresent()) {
-            carroRepository.deleteById(id);
-            return true;
-        }
-        return false;
+    public void delete(Long id) {
+        carroRepository.deleteById(id);
     }
 }

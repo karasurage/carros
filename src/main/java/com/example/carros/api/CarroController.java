@@ -23,16 +23,15 @@ public class CarroController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<CarroDTO>> get() {
+    public ResponseEntity<List<CarroDTO>> getCarros() {
         return ResponseEntity.ok(carroService.getCarros());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getById(@PathVariable("id") Long id) {
-        Optional<CarroDTO> carro = carroService.getCarroById(id);
+    public ResponseEntity getCarroById(@PathVariable("id") Long id) {
+        CarroDTO carro = carroService.getCarroById(id);
 
-        return carro.map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        return ResponseEntity.ok(carro);
     }
 
     @GetMapping("/tipo/{tipo}")
@@ -71,11 +70,9 @@ public class CarroController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable("id") Long id) {
-        boolean ok = carroService.delete(id);
+        carroService.delete(id);
 
-        return ok ?
-                ResponseEntity.ok().build() :
-                ResponseEntity.notFound().build();
+        return ResponseEntity.ok().build();
     }
 
 }
