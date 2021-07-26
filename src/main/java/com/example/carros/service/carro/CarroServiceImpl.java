@@ -1,4 +1,4 @@
-package com.example.carros.service;
+package com.example.carros.service.carro;
 
 import com.example.carros.config.exception.ObjectNotFoundException;
 import com.example.carros.domain.Carro;

@@ -2,7 +2,8 @@ package com.example.carros.api;
 
 import com.example.carros.domain.Carro;
 import com.example.carros.domain.dto.CarroDTO;
-import com.example.carros.service.CarroService;
+import com.example.carros.service.carro.CarroService;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/carros")
+@NoArgsConstructor
 public class CarroController {
     private CarroService carroService;
 

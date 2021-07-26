@@ -2,6 +2,7 @@ package com.example.carros.service;
 
 import com.example.carros.domain.Carro;
 import com.example.carros.domain.dto.CarroDTO;
+import com.example.carros.service.carro.CarroService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
