@@ -1,4 +1,4 @@
-package com.example.carros.service;
+package com.example.carros;
 
 import com.example.carros.domain.Carro;
 import com.example.carros.domain.dto.CarroDTO;
