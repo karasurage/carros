@@ -29,7 +29,8 @@ public class FirebaseStorageService {
 
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(GoogleCredentials.fromStream(in))
-                    .setStorageBucket("carros-flutterweb.appspot.com")
+                    .setStorageBucket("api-carros-springboot-udemy.appspot.com")
+                    .setDatabaseUrl("https://api-carros-springboot-udemy.firebaseio.com")
                     .build();
 
             FirebaseApp.initializeApp(options);
