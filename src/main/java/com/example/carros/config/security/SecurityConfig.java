@@ -1,15 +1,24 @@
 package com.example.carros.config.security;
 
+import com.example.carros.config.cors.CorsConfig;
+import com.example.carros.config.security.jwt.JwtAuthenticationFilter;
+import com.example.carros.config.security.jwt.JwtAuthorizationFilter;
+import com.example.carros.config.security.jwt.handler.AccessDeniedHandler;
+import com.example.carros.config.security.jwt.handler.UnauthorizedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
 
 @Configuration
 @EnableWebSecurity
@@ -20,17 +29,37 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Qualifier("userDetailsService")
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private UnauthorizedHandler unauthorizedHandler;
+
+    @Autowired
+    private AccessDeniedHandler accessDeniedHandler;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        AuthenticationManager authManager = authenticationManager();
 
-        http.authorizeRequests()
+        http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
+                .and()
+                .authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/api/v1/login").permitAll()
+                .antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**")
+                .permitAll()
                 .anyRequest().authenticated()
-                .and().httpBasic()
-                .and().csrf().disable();
+                .and().csrf().disable()
+                .addFilter(new CorsConfig())
+                .addFilter(new JwtAuthenticationFilter(authManager))
+                .addFilter(new JwtAuthorizationFilter(authManager, userDetailsService))
+                .exceptionHandling()
+                .accessDeniedHandler(accessDeniedHandler)
+                .authenticationEntryPoint(unauthorizedHandler)
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
         auth.userDetailsService(userDetailsService).passwordEncoder(encoder);

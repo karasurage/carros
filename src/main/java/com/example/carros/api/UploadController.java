@@ -1,6 +1,6 @@
 package com.example.carros.api;
 
-import com.example.carros.domain.upload.FirebaseStorageService;
+import com.example.carros.service.upload.FirebaseStorageService;
 import com.example.carros.upload.UploadInput;
 import com.example.carros.upload.UploadOutput;
 import org.springframework.beans.factory.annotation.Autowired;

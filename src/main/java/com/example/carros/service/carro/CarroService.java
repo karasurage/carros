@@ -2,16 +2,16 @@ package com.example.carros.service.carro;
 
 import com.example.carros.domain.Carro;
 import com.example.carros.domain.dto.CarroDTO;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CarroService {
-    List<CarroDTO> getCarros();
+    List<CarroDTO> getCarros(Pageable pageable);
 
     CarroDTO getCarroById(Long id);
 
-    List<CarroDTO> getCarrosByTipo(String tipo);
+    List<CarroDTO> getCarrosByTipo(String tipo, Pageable pageable);
 
     CarroDTO insert(Carro carro);
 

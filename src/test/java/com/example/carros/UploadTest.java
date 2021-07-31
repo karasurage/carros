@@ -1,6 +1,6 @@
 package com.example.carros;
 
-import com.example.carros.domain.upload.FirebaseStorageService;
+import com.example.carros.service.upload.FirebaseStorageService;
 import com.example.carros.upload.UploadInput;
 import com.example.carros.upload.UploadOutput;
 import org.junit.Test;
@@ -17,16 +17,12 @@ import static junit.framework.TestCase.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = CarrosApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class UploadTest {
+public class UploadTest extends BaseAPITest {
     @Autowired
     protected TestRestTemplate rest;
 
     @Autowired
     private FirebaseStorageService service;
-
-    private TestRestTemplate basicAuth() {
-        return rest.withBasicAuth("admin", "123");
-    }
 
     private UploadInput getUploadInput() {
         UploadInput upload = new UploadInput();
@@ -53,7 +49,7 @@ public class UploadTest {
         UploadInput upload = getUploadInput();
 
         // Insert
-        ResponseEntity<UploadOutput> response = basicAuth().postForEntity("/api/v1/upload", upload, UploadOutput.class);
+        ResponseEntity<UploadOutput> response = post("/api/v1/upload", upload, UploadOutput.class);
         System.out.println(response);
 
         // Verifica se criou

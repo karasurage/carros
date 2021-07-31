@@ -1,5 +1,6 @@
 package com.example.carros;
 
+import com.example.carros.config.exception.ObjectNotFoundException;
 import com.example.carros.domain.Carro;
 import com.example.carros.domain.dto.CarroDTO;
 import com.example.carros.service.carro.CarroService;
@@ -7,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -15,9 +17,13 @@ import static junit.framework.TestCase.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class CarroServiceImplTest {
+public class CarrosServiceTest {
+
     @Autowired
-    private CarroService service;
+    private CarroService carroService;
+
+    @Autowired
+    private Pageable pageable;
 
     @Test
     public void testSave() {
@@ -26,7 +32,7 @@ public class CarroServiceImplTest {
         carro.setNome("Porshe");
         carro.setTipo("esportivos");
 
-        CarroDTO c = service.insert(carro);
+        CarroDTO c = carroService.insert(carro);
 
         assertNotNull(c);
 
@@ -34,20 +40,20 @@ public class CarroServiceImplTest {
         assertNotNull(id);
 
         // Buscar o objeto
-        c = service.getCarroById(id);
-        assertNotNull(id);
+        c = carroService.getCarroById(id);
+        assertNotNull(c);
 
         assertEquals("Porshe", c.getNome());
         assertEquals("esportivos", c.getTipo());
 
         // Deletar o objeto
-        service.delete(id);
+        carroService.delete(id);
 
         // Verificar se deletou
         try {
-            assertNull(service.getCarroById(id));
+            carroService.getCarroById(id);
             fail("O carro não foi excluído");
-        } catch (Exception e) {
+        } catch (ObjectNotFoundException e) {
             // OK
         }
     }
@@ -55,7 +61,7 @@ public class CarroServiceImplTest {
     @Test
     public void testLista() {
 
-        List<CarroDTO> carros = service.getCarros();
+        List<CarroDTO> carros = carroService.getCarros(pageable);
 
         assertEquals(30, carros.size());
     }
@@ -63,17 +69,16 @@ public class CarroServiceImplTest {
     @Test
     public void testListaPorTipo() {
 
-        assertEquals(10, service.getCarrosByTipo("classicos").size());
-        assertEquals(10, service.getCarrosByTipo("esportivos").size());
-        assertEquals(10, service.getCarrosByTipo("luxo").size());
-
-        assertEquals(0, service.getCarrosByTipo("x").size());
+        assertEquals(10, carroService.getCarrosByTipo("classicos", pageable).size());
+        assertEquals(10, carroService.getCarrosByTipo("esportivos", pageable).size());
+        assertEquals(10, carroService.getCarrosByTipo("luxo", pageable).size());
+        assertEquals(0, carroService.getCarrosByTipo("x", pageable).size());
     }
 
     @Test
     public void testGet() {
 
-        CarroDTO c = service.getCarroById(11L);
+        CarroDTO c = carroService.getCarroById(11L);
 
         assertNotNull(c);
 

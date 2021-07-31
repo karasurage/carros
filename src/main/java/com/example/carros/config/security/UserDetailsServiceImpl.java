@@ -1,4 +1,4 @@
-package com.example.carros.service.userDetails;
+package com.example.carros.config.security;
 
 import com.example.carros.domain.User;
 import com.example.carros.repository.UserRepository;

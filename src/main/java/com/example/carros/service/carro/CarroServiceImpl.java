@@ -5,6 +5,7 @@ import com.example.carros.domain.Carro;
 import com.example.carros.domain.dto.CarroDTO;
 import com.example.carros.repository.CarroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -17,10 +18,8 @@ public class CarroServiceImpl implements CarroService {
     @Autowired
     private CarroRepository carroRepository;
 
-    public List<CarroDTO> getCarros() {
-        List<CarroDTO> list = carroRepository.findAll()
-                .stream()
-                .map(CarroDTO::create)
+    public List<CarroDTO> getCarros(Pageable pageable) {
+        List<CarroDTO> list = carroRepository.findAll(pageable).stream().map(CarroDTO::create)
                 .collect(Collectors.toList());
         return list;
     }
@@ -30,11 +29,8 @@ public class CarroServiceImpl implements CarroService {
         return carro.map(CarroDTO::create).orElseThrow(() -> new ObjectNotFoundException("Carro não encontrado"));
     }
 
-    public List<CarroDTO> getCarrosByTipo(String tipo) {
-        return carroRepository.findByTipo(tipo)
-                .stream()
-                .map(CarroDTO::create)
-                .collect(Collectors.toList());
+    public List<CarroDTO> getCarrosByTipo(String tipo, Pageable pageable) {
+        return carroRepository.findByTipo(tipo, pageable).stream().map(CarroDTO::create).collect(Collectors.toList());
     }
 
     public CarroDTO insert(Carro carro) {
@@ -60,7 +56,7 @@ public class CarroServiceImpl implements CarroService {
             return CarroDTO.create(db);
         } else {
             return null;
-//            throw new RuntimeException("Não foi possível atualizar o registro");
+            //throw new RuntimeException("Não foi possível atualizar o registro");
         }
     }
 
